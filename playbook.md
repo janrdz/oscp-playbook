@@ -1,4 +1,4 @@
-# OWASP Top 10
+# Web Hacking
 
 ## SSL Certificates
 
@@ -6,6 +6,8 @@
 # Inspect SSL certificates
 openssl s_client -connect 10.10.10.250:443
 ````
+
+## OWASP Top 10
 
 ## Command Injection
 
