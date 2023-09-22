@@ -128,6 +128,9 @@ icacls file.txt
 ```powershell
 # Display rules that are off and that blocks outbound traffic
 Get-NetFirewallRule -Direction Outbound -Action Block -Enabled True
+
+# Display rules that allow outbound traffic
+Get-NetFirewallRule -Direction Outbound -Action Allow -Enabled True
 ```
 
 ## Abusing groups
