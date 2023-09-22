@@ -177,6 +177,11 @@ impacket-smbserver smbFolder $(pwd) -smb2support
 
 ------------------------------------------------------------------------------------------------------
 
+# Advance
+ 
+
+------------------------------------------------------------------------------------------------------
+
 # Extra
 
 ## Alternate Data Streams (Windows)
@@ -193,4 +198,10 @@ more < ads.txt:file.txt
 
 ```powershell
 icacls file.txt
+```
+
+## Separating characters with points
+
+```shell
+echo "characters" | iconv -t utf-16le | base64 -w 0; echo
 ```
