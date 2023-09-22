@@ -116,6 +116,9 @@ netstat -nat
 whoami /priv, whoami /all
 net user <user>
 
+# Group Enumeration
+net group
+
 # Services Enumeration
 services
 
